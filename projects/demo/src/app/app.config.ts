@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHighlightOptions } from 'ngx-highlightjs'
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
       },
       themePath: 'assets/style/atom-one-light.css' // https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/
     }),
+    provideHttpClient(),
     provideZonelessChangeDetection(),
     provideRouter(routes)
   ]

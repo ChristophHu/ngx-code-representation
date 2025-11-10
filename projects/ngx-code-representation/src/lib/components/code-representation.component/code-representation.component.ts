@@ -23,7 +23,6 @@ export interface files {
 })
 export class CodeRepresentationComponent implements AfterViewInit {
   @ViewChild('codeEl') codeElementRef!: ElementRef<HTMLElement>;
-  @ViewChild('preEl') preElementRef!: ElementRef<HTMLElement>;
   @Input() font_size: string = '16px';
   @Input() files: file[] = [];
   

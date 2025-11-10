@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
         css: () => import('highlight.js/lib/languages/css'),
         xml: () => import('highlight.js/lib/languages/xml')
       },
-      themePath: 'assets/style/github-dark.css'
+      themePath: 'assets/style/default.css'
     }),
     provideZonelessChangeDetection(),
     provideRouter(routes)

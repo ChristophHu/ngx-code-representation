@@ -1,23 +1,18 @@
 import { Component, ElementRef, signal, ViewChild, AfterViewInit, Input, QueryList, ViewChildren } from '@angular/core';
 import { HighlightAuto } from 'ngx-highlightjs'
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers'
-
-export interface file {
-  filename: string;
-  language: string;
-  code: string;
-}
-
-export interface files {
-  files: file[];
-}
+import { file } from '../../models/file.interface';
+import { CommonModule } from '@angular/common';
+import { CodeFromUrlPipe } from "../../pipes/code-from-url.pipe";
 
 @Component({
   selector: 'code-representation',
   imports: [
+    CommonModule,
     HighlightAuto,
-    HighlightLineNumbers
-  ],
+    HighlightLineNumbers,
+    CodeFromUrlPipe
+],
   templateUrl: './code-representation.component.html',
   styleUrls: ['./code-representation.component.sass']
 })
@@ -29,8 +24,9 @@ export class CodeRepresentationComponent implements AfterViewInit {
   copied = signal(false);
   activeTabIndex = signal(0);
 
-  get activeFile(): file {
-    return this.files[this.activeTabIndex()];
+  get activeFile(): file | null {
+    if (this.files.length === 0) return null
+    return this.files[this.activeTabIndex()]
   }
 
   selectTab(index: number): void {
@@ -74,14 +70,15 @@ export class CodeRepresentationComponent implements AfterViewInit {
   }
   
   copyToClipboard(): void {
-    navigator.clipboard.writeText(this.activeFile.code).then(() => {
-      this.copied.set(true);
-      setTimeout(() => {
-        this.copied.set(false);
-      }, 2000);
-    }).catch(err => {
-      console.error('Failed to copy:', err);
-    });
+    if (this.files.length === 0) return
+    // navigator.clipboard.writeText(this.activeFile!.code!).then(() => {
+    //   this.copied.set(true);
+    //   setTimeout(() => {
+    //     this.copied.set(false);
+    //   }, 2000);
+    // }).catch(err => {
+    //   console.error('Failed to copy:', err);
+    // });
   }
   
   private addLineNumbersManually(codeElement: HTMLElement): void {

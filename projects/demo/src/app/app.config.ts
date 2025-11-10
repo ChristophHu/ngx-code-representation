@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
         css: () => import('highlight.js/lib/languages/css'),
         xml: () => import('highlight.js/lib/languages/xml')
       },
-      themePath: 'assets/style/default.css'
+      themePath: 'assets/style/atom-one-light.css' // https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/
     }),
     provideZonelessChangeDetection(),
     provideRouter(routes)

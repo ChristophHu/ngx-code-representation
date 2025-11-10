@@ -16,5 +16,10 @@
       }
     </button>
   </div>
-  <pre><code #codeEl [highlightAuto]="activeFile.code" [languages]="[activeFile.language]"></code></pre>
+  @if (activeFile && activeFile.code) {
+      <pre><code #codeEl [highlightAuto]="activeFile.code" [languages]="[activeFile.language]"></code></pre>
+  } 
+  @if (activeFile && activeFile.filepath && activeFile.filepath != null) {
+    <pre><code #codeEl [highlightAuto]="activeFile.filepath | codeFromUrl | async" [languages]="[activeFile.language]"></code></pre>
+  }
 </div>

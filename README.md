@@ -1,59 +1,71 @@
-# NgxCodeRepresentation
+# Ngx-code-representation
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.3.
+## Demo
+<p align="center">
+  <a href="https://christophhu.github.io/ngx-code-representation"><img src="https://github.com/ChristophHu/ChristophHu/blob/main/assets/img/ngx-code-representation.png" width="500" alt="image" /></a>
+</p>
 
-## Development server
+## Description
+This repository contains an Angular 20 demo that showcases the `ngx-code-representation` library. `ngx-code-representation` provides a representation of code with highlightjs for Angular apps. It’s easy to customize—sizes, colors, and behavior—to match your application’s design.
 
-To start a local development server, run:
+## Frameworks and Languages
+<p align="left">
+  <img alt="Static Badge" src="https://img.shields.io/badge/20.3.0-000000?style=for-the-badge&logo=angular&logoColor=white&label=Angular&labelColor=000000">
+  <img alt="Static Badge" src="https://img.shields.io/badge/4.1.16-000000?style=for-the-badge&logo=tailwindcss&logoColor=white&label=TailwindCSS&labelColor=06B6D4&color=000000">
+  <img alt="Static Badge" src="https://img.shields.io/badge/5.9.2-000000?style=for-the-badge&logo=typescript&logoColor=white&label=Typescript&labelColor=007ACC&color=000000">
+</p>
 
-```bash
-ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Installation
+To run this project, you need to have Node.js installed on your machine. Clone the repository and run the following commands:
 
 ```bash
-ng generate --help
+npm install @christophhu/ngx-datatable
 ```
 
-## Building
+## Usage
+Import the DatatableComponent in the app.ts.
 
-To build the project run:
+```typescript
+import { DatatableComponent } from '@christophhu/ngx-datatable';
 
-```bash
-ng build
+@NgModule({
+    imports: [
+        DatatableComponent,
+        ...
+    ]
+...
+})
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+Add the table options and data source in your component.ts file.
+```typescript
+easydata$: Observable<any[]> = of([
+  { date: '01.01.2024 00:00:59', description: 'Berlin', klar: true },
+  { date: '01.01.2023 00:00:59', description: 'Hamburg', klar: false },
+])
+easytable: Tableoptions = {
+  columns: [
+    { id: '1', name: 'date', header: 'Datum/Zeit', cell: 'date', pipe: { name: DatePipe, args: 'dd.MM.yyyy HH:mm:ss'}, hidden: false, sortable: true },
+    { id: '2', name: 'description', header: 'Beschreibung', cell: 'description', hidden: false, sortable: true },
+    { id: '3', name: 'klar', header: 'Klar', cell: 'klar', type: 'checkbox', disabled: true, hidden: false, sortable: true }
+  ]
+}
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+Then, you can use the `<ngx-datatable>` component in your HTML templates as shown below:
+```html
+<ngx-datatable [tableoptions]="easytable" [data$]="easydata$"></ngx-datatable>
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## License
+This project is licensed under the MIT License.
 
-## Additional Resources
+The MIT License (MIT)
+Copyright © 2025 <copyright holders>
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

@@ -1,0 +1,85 @@
+import { Component, Input, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, inject, OnDestroy } from '@angular/core'
+import { gist } from '../../models/gist.interface'
+// import { file } from '../../models/file.interface';
+
+@Component({
+  selector: 'element-renderer',
+  imports: [
+
+  ],
+  templateUrl: './element-renderer.html',
+  styleUrl: './element-renderer.sass',
+})
+export class ElementRenderer implements OnInit, AfterViewInit, OnDestroy {
+  @Input() gist: gist = {
+    "name": "Placeholder Gist",
+    "type": "Ülaceholder",
+    "version": "1.0.0",
+    "description": "This is a placeholder gist used for demonstration purposes.",
+    "file": [
+      {
+        "filename": "placeholder.html",
+        "language": "html",
+        "code": "<div>Placeholder<\/div>"
+      },
+      {
+        "filename": "placeholder.css",
+        "language": "css",
+        "code": "div { color: red; }"
+      }
+    ]
+  }
+  @ViewChild('elRenderer', { static: false }) elRenderer!: ElementRef<HTMLElement>
+
+  private styleElement?: HTMLStyleElement;
+  private renderer = inject(Renderer2);
+
+  // files: file[] = []
+
+  ngOnInit(): void {
+    
+  }
+
+  ngAfterViewInit(): void {
+    this.renderCode();
+    this.applyStyles();
+  }
+
+  private renderCode(): void {
+    const htmlFile = this.gist.file.find(f => f.language === 'html');
+    if (htmlFile && htmlFile.code && this.elRenderer) {
+      this.elRenderer.nativeElement.innerHTML = htmlFile.code;
+    }
+  }
+
+  private applyStyles(): void {
+    const cssFile = this.gist.file.find(f => f.language === 'css');
+    if (cssFile && cssFile.code && this.elRenderer) {
+      // Remove old style element if exists
+      if (this.styleElement) {
+        this.renderer.removeChild(this.elRenderer.nativeElement, this.styleElement);
+      }
+
+      // Create new style element and append it to elRenderer
+      this.styleElement = this.renderer.createElement('style');
+      this.renderer.setAttribute(this.styleElement, 'type', 'text/css');
+      const textNode = this.renderer.createText(cssFile.code);
+      this.renderer.appendChild(this.styleElement, textNode);
+      
+      // Insert style element as first child of elRenderer
+      const firstChild = this.elRenderer.nativeElement.firstChild;
+      if (firstChild) {
+        this.renderer.insertBefore(this.elRenderer.nativeElement, this.styleElement, firstChild);
+      } else {
+        this.renderer.appendChild(this.elRenderer.nativeElement, this.styleElement);
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up style element on component destruction
+    if (this.styleElement && this.elRenderer) {
+      this.renderer.removeChild(this.elRenderer.nativeElement, this.styleElement);
+    }
+  }
+}

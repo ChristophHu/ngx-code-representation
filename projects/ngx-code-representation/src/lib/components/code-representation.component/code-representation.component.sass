@@ -1,21 +1,23 @@
 /* Code container with copy button */
 .code-container
-    position: relative
+    position: absolute
+    inset: 0    
 
 .preview-container
     padding: 1rem
-    min-height: 200px
+    height: 100%
     background-color: #22272e
     border-radius: 0 0 4px 4px
-    border: 1px solid #444c56
-    border-top: none
 
 .tabs-header
     display: flex
+    position: sticky
+    top: 0
     align-items: center
     background-color: #2d333b
     gap: 4px
     padding: 4px
+    z-index: 10
 
 .tab-button
     padding: 6px 12px

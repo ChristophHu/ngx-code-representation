@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CodeFromUrlPipe } from '../../pipes/code-from-url.pipe';
 import { HighlightAuto } from 'ngx-highlightjs';
 import { file } from '../../models/file.interface';
@@ -15,7 +15,7 @@ import { CodeRepresentationService } from '../../services/code-representation.se
   templateUrl: './code-renderer.html',
   styleUrl: './code-renderer.sass',
 })
-export class CodeRenderer implements OnInit {
+export class CodeRenderer implements OnInit, AfterViewInit {
   @ViewChild('codeEl') codeElementRef!: ElementRef<HTMLElement>
   @Input() file!: file
   font_size: string = '16px'
@@ -53,24 +53,6 @@ export class CodeRenderer implements OnInit {
       }
     }, 200)
   }
-
-  // selectFiel() {
-  //   setTimeout(() => {
-  //     this.activeFileIndex.set(index)
-  //     setTimeout(() => {
-  //       if (this.codeElementRef) {
-  //         this.addLineNumbersManually(this.codeElementRef.nativeElement)
-  //         // Fade in new table
-  //         setTimeout(() => {
-  //           const newTable = this.codeElementRef.nativeElement.querySelector('.hljs-ln') as HTMLElement
-  //           if (newTable) {
-  //             newTable.style.opacity = '1'
-  //           }
-  //         }, 10)
-  //       }
-  //     }, 50)
-  //   }, 150)
-  // }
 
   // copyToClipboard(): void {
   //   if (this.gist?.file.length === 0) return

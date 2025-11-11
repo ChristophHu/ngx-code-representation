@@ -23,7 +23,6 @@ export class CodeRepresentationService {
   }
 
   public setFile(index: number): void {
-    console.log(this._gist.getValue())
     this._file.next(this._gist.value?.file[index] || null)
   }
 

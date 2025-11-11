@@ -23,9 +23,10 @@ import { CodeEnum } from '../../models/code.enum'
 export class CodeRepresentationComponent implements OnInit {
   gist$: Observable<gist | null> = of(null)
   file$: Observable<file | null> = of(null)
+  file_index: number = 0
 
-  copied = signal(false)
-  activeFileIndex = signal(0)
+  // copied = signal(false)
+  // activeFileIndex = signal(1)
   activeView = signal<CodeEnum.CODE | CodeEnum.PREVIEW>(CodeEnum.CODE)
 
   constructor(private _codeRepresentationService: CodeRepresentationService) {}
@@ -36,8 +37,9 @@ export class CodeRepresentationComponent implements OnInit {
   }
 
   selectFile(index: number): void {
-    if (index === this.activeFileIndex()) return
+    if (this.file_index === index) return
     this._codeRepresentationService.setFile(index) 
+    this.file_index = index
   }
 
   selectView(view: CodeEnum.CODE | CodeEnum.PREVIEW): void {

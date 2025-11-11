@@ -1,6 +1,6 @@
 @defer (when gist$) {
   @if ((gist$ | async); as gist) {
-    <div class="code-container">
+    <div class="absolute inset-0 code-container overflow-auto">
       <div class="tabs-header">
         @if (gist) {
           <button 
@@ -13,7 +13,7 @@
 
         @if (gist.file && gist.file.length > 0) {
           @for (file of gist.file; track file.filename; let i = $index) {
-            <button class="tab-button" [class.active]="activeFileIndex() === i && activeView() === 0" (click)="selectFile(i); selectView(0)">
+            <button class="tab-button" [class.active]="file_index === i && activeView() === 0" (click)="selectFile(i); selectView(0)">
               {{ file.filename }}
             </button>
           }

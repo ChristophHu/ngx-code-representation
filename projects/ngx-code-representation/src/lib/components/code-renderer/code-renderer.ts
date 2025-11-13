@@ -1,28 +1,27 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { CodeFromUrlPipe } from '../../pipes/code-from-url.pipe';
-import { HighlightAuto } from 'ngx-highlightjs';
-import { file } from '../../models/file.interface';
-import { JsonPipe } from '@angular/common';
-import { CodeRepresentationService } from '../../services/code-representation.service';
+import { Component, Input, OnInit, ViewEncapsulation, ElementRef, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core'
+import { HighlightAuto } from 'ngx-highlightjs'
+import { file } from '../../models/file.interface'
+import { CodeRepresentationService } from '../../services/code-representation.service'
+import { IconsComponent } from '@christophhu/ngx-icons'
 
 @Component({
   selector: 'code-renderer',
   imports: [
-    CodeFromUrlPipe,
     HighlightAuto,
-    JsonPipe
+    IconsComponent
   ],
   templateUrl: './code-renderer.html',
   styleUrl: './code-renderer.sass',
+  encapsulation: ViewEncapsulation.None
 })
-export class CodeRenderer implements OnInit, AfterViewInit {
-  @ViewChild('codeEl') codeElementRef!: ElementRef<HTMLElement>
+export class CodeRenderer implements OnInit, AfterViewInit, OnChanges {
   @Input() file!: file
   font_size: string = '16px'
 
-  constructor(private _codeRepresentationService: CodeRepresentationService) {
-    
-  }
+  constructor(
+    private _codeRepresentationService: CodeRepresentationService,
+    private elementRef: ElementRef
+  ) { }
 
   ngOnInit(): void {
     this._codeRepresentationService.fontsize$.subscribe({
@@ -31,53 +30,46 @@ export class CodeRenderer implements OnInit, AfterViewInit {
       }
     })
   }
-  
-  ngAfterViewInit(): void {
-    // Hide code element and fade out table
 
-    if (this.codeElementRef.nativeElement && this.codeElementRef.nativeElement.classList.contains('hljs-line-numbers')) {
-      this.codeElementRef.nativeElement.classList.remove('hljs-line-numbers')
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['file'] && !changes['file'].firstChange) {
+      this.makeAllElementsSelectable()
     }
-    const table = this.codeElementRef.nativeElement.querySelector('.hljs-ln') as HTMLElement
-    if (table) {
-      table.style.opacity = '0'
-    }
-    setTimeout(() => {
-      if (this.codeElementRef) {
-        this.addLineNumbersManually(this.codeElementRef.nativeElement)
-        // Fade in initial table
-        const table = this.codeElementRef.nativeElement.querySelector('.hljs-ln') as HTMLElement
-        if (table) {
-          table.style.opacity = '1'
-        }
-      }
-    }, 200)
   }
 
-  // copyToClipboard(): void {
-  //   if (this.gist?.file.length === 0) return
-  //   navigator.clipboard.writeText(this.activeFile!.code!).then(() => {
-  //     this.copied.set(true)
-  //     setTimeout(() => {
-  //       this.copied.set(false)
-  //     }, 2000)
-  //   }).catch(err => {
-  //     console.error('Failed to copy:', err)
-  //   })
-  // }
+  ngAfterViewInit(): void {
+    this.makeAllElementsSelectable()
+  }
 
-  private addLineNumbersManually(codeElement: HTMLElement): void {
-    const highlightedHtml = codeElement.innerHTML
-    const lines = highlightedHtml.split('\n')
-    
-    let tableHtml = '<table class="hljs-ln" style="font-size: ' + this.font_size + ' opacity: 0"><tbody>'
-    lines.forEach((line, index) => {
-      const lineNumber = index + 1
-      tableHtml += `<tr><td class="hljs-ln-line hljs-ln-numbers" style="width: 30px text-align: right padding-right: 10px user-select: none" data-line-number="${lineNumber}"><div class="hljs-ln-n" data-line-number="${lineNumber}">${lineNumber}</div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="${lineNumber}">${line || ' '}</td></tr>`
-    })
-    tableHtml += '</tbody></table>'
-    
-    codeElement.innerHTML = tableHtml
-    codeElement.classList.add('hljs-line-numbers')
+  private makeAllElementsSelectable(): void {
+    setTimeout(() => {
+      const allElements = this.elementRef.nativeElement.querySelectorAll('*')
+      allElements.forEach((el: HTMLElement) => {
+        el.style.userSelect = 'text'
+        el.style.webkitUserSelect = 'text'
+        el.style.setProperty('-moz-user-select', 'text')
+        el.style.setProperty('-ms-user-select', 'text')
+        el.style.setProperty('-khtml-user-select', 'text')
+      })
+    }, 100)
+  }
+
+  copyToClipboard(): void {
+    if (this.file && this.file.code) {
+      navigator.clipboard.writeText(this.file.code).then(() => {
+        // Optionally, you can provide feedback to the user here
+      }).catch(err => {
+        console.error('Could not copy text: ', err)
+      })
+    }
+  }
+  
+
+  increaseFontSize(): void {
+    this._codeRepresentationService.increaseFontSize()
+  }
+
+  decreaseFontSize(): void {
+    this._codeRepresentationService.decreaseFontSize()
   }
 }

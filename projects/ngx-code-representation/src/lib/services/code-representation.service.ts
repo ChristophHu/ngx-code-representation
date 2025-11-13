@@ -26,7 +26,7 @@ export class CodeRepresentationService {
     this._file.next(this._gist.value?.file[index] || null)
   }
 
-  public increaseFomtSize(): void {
+  public increaseFontSize(): void {
     const currentSize = parseInt(this._fontsize.value)
     this._fontsize.next(`${currentSize + 2}px`)
   }

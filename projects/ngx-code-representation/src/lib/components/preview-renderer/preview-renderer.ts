@@ -52,18 +52,15 @@ export class PreviewRenderer implements OnInit, AfterViewInit, OnDestroy {
   private applyStyles(): void {
     const cssFile = this.gist.file.find(f => f.language === 'css')
     if (cssFile && cssFile.code && this.elRenderer) {
-      // Remove old style element if exists
       if (this.styleElement) {
         this.renderer.removeChild(this.elRenderer.nativeElement, this.styleElement)
       }
 
-      // Create new style element and append it to elRenderer
       this.styleElement = this.renderer.createElement('style')
       this.renderer.setAttribute(this.styleElement, 'type', 'text/css')
       const textNode = this.renderer.createText(cssFile.code)
       this.renderer.appendChild(this.styleElement, textNode)
       
-      // Insert style element as first child of elRenderer
       const firstChild = this.elRenderer.nativeElement.firstChild
       if (firstChild) {
         this.renderer.insertBefore(this.elRenderer.nativeElement, this.styleElement, firstChild)
@@ -74,7 +71,6 @@ export class PreviewRenderer implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Clean up style element on component destruction
     if (this.styleElement && this.elRenderer) {
       this.renderer.removeChild(this.elRenderer.nativeElement, this.styleElement)
     }

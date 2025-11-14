@@ -7,9 +7,11 @@ import { HighlightLoader } from 'ngx-highlightjs';
 export class NgxCodeThemesService {
   currentTheme = signal<string | null>(null)
   themes: string[] = []
-  default_theme = 'assets/style/github-dark.css'
+  default_theme = '../../style/github-dark.css'
 
-  constructor(private hlLoader: HighlightLoader) {}
+  constructor(private hlLoader: HighlightLoader) {
+    this.setHighlightTheme(this.default_theme)
+  }
 
   setHighlightTheme(path: string): void {
     this.hlLoader.setTheme(path)

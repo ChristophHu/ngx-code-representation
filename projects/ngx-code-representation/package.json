@@ -45,8 +45,5 @@
       "input": "src/lib/styles",
       "output": "styles"
     }
-  ],
-  "styles": [
-    "src/lib/styles/ngx-code-representation.scss"
   ]
 }

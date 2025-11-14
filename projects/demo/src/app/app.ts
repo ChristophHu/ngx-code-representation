@@ -1,45 +1,24 @@
-import { Component, signal } from '@angular/core';
-import { CodeRepresentationComponent, CodeRepresentationService, gist, ThemesService } from '../../../ngx-code-representation/src/public-api';
-import { file } from '../../../ngx-code-representation/src/lib/models/file.interface';
+import { Component } from '@angular/core';
+import { NgxCodeRepresentationComponent, NgxCodeRepresentationService, gist, NgxCodeThemesService, file } from '../../../ngx-code-representation/src/public-api';
 
 @Component({
   selector: 'app-root',
   imports: [
-    CodeRepresentationComponent
+    NgxCodeRepresentationComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.sass'
 })
 export class App {
-  constructor(private _codeRepresentationService: CodeRepresentationService, private _themesService: ThemesService) {
-    this._codeRepresentationService.setGist(this.gist)
-    this._themesService.setThemes([
-      'assets/style/github-dark.css',
-      'assets/style/dark.css',
-      'assets/style/github.css'
+  constructor(private _ngxCodeRepresentationService: NgxCodeRepresentationService, private _ngxCodeThemesService: NgxCodeThemesService) {
+    this._ngxCodeRepresentationService.setGist(this.gist)
+    this._ngxCodeThemesService.setThemes([
+      'assets/highlight_themes/github-dark.css',
+      'assets/highlight_themes/dark.css',
+      'assets/highlight_themes/github.css'
     ])
   }
   
-  testCode = `function hello() {
-  console.log('Hello World');
-  return true;
-}`;
-
-  files: file[] =
-    [
-    {filename: 'main.ts', language: 'typescript', code: `import { provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';`},
-    {filename: 'app.ts', language: 'typescript', code: `export interface file {
-  filename: string;
-  language: string;
-  code: string;
-}
-
-export interface files {
-  files: file[];
-}`},
-    {filename: 'highlight-url.ts', language: 'typescript', filepath: `assets/code/highlight-url.ts`},
-  ]
-
   gist: gist = {
     "name": "border-blob",
     "type": "shape",

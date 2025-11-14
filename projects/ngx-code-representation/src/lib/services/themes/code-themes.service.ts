@@ -4,7 +4,7 @@ import { HighlightLoader } from 'ngx-highlightjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ThemesService {
+export class NgxCodeThemesService {
   currentTheme = signal<string | null>(null)
   themes: string[] = []
   default_theme = 'assets/style/github-dark.css'

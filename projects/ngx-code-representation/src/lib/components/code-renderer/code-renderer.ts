@@ -1,12 +1,13 @@
 import { Component, Input, OnInit, ViewEncapsulation, ElementRef, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core'
 import { HighlightAuto } from 'ngx-highlightjs'
 import { file } from '../../models/file.interface'
-import { CodeRepresentationService } from '../../services/code-representation.service'
+import { NgxCodeRepresentationService } from '../../services/code-representation.service'
 import { NgxIconsComponent } from '@christophhu/ngx-icons'
-import { ThemesService } from '../../services/themes/themes.service'
+import { NgxCodeThemesService } from '../../services/themes/code-themes.service'
 
 @Component({
   selector: 'code-renderer',
+  standalone: true,
   imports: [
     HighlightAuto,
     NgxIconsComponent
@@ -20,13 +21,13 @@ export class CodeRenderer implements OnInit, AfterViewInit, OnChanges {
   font_size: string = '16px'
 
   constructor(
-    private _codeRepresentationService: CodeRepresentationService,
-    private _themesService: ThemesService,
+    private _ngxCodeRepresentationService: NgxCodeRepresentationService,
+    private _ngxCodeThemesService: NgxCodeThemesService,
     private elementRef: ElementRef
   ) { }
 
   ngOnInit(): void {
-    this._codeRepresentationService.fontsize$.subscribe({
+    this._ngxCodeRepresentationService.fontsize$.subscribe({
       next: (size: string) => {
         this.font_size = size
       }
@@ -67,14 +68,14 @@ export class CodeRenderer implements OnInit, AfterViewInit, OnChanges {
   }
   
   changeHighlightTheme() {
-    this._themesService.toggleHighlightTheme()
+    this._ngxCodeThemesService.toggleHighlightTheme()
   }
 
   increaseFontSize(): void {
-    this._codeRepresentationService.increaseFontSize()
+    this._ngxCodeRepresentationService.increaseFontSize()
   }
 
   decreaseFontSize(): void {
-    this._codeRepresentationService.decreaseFontSize()
+    this._ngxCodeRepresentationService.decreaseFontSize()
   }
 }

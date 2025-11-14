@@ -6,7 +6,7 @@ import { file } from '../models/file.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class CodeRepresentationService {
+export class NgxCodeRepresentationService {
   private _gist = new BehaviorSubject<gist | null>(null)
   gist$: Observable<gist | null> = this._gist.asObservable()
 

@@ -3,14 +3,14 @@ import { file } from '../../models/file.interface'
 import { gist } from '../../models/gist.interface'
 import { CommonModule } from '@angular/common'
 import { PreviewRenderer } from '../preview-renderer/preview-renderer'
-import { CodeRepresentationService } from '../../services/code-representation.service'
+import { NgxCodeRepresentationService } from '../../services/code-representation.service'
 import { Observable, of } from 'rxjs'
 import { CodeRenderer } from '../code-renderer/code-renderer'
 import { NgxIconsComponent } from '@christophhu/ngx-icons'
 import { CodeEnum } from '../../models/code.enum'
 
 @Component({
-  selector: 'code-representation',
+  selector: 'ngx-code-representation',
   imports: [
     CodeRenderer,
     CommonModule,
@@ -20,7 +20,7 @@ import { CodeEnum } from '../../models/code.enum'
   templateUrl: './code-representation.component.html',
   styleUrls: ['./code-representation.component.sass']
 })
-export class CodeRepresentationComponent implements OnInit {
+export class NgxCodeRepresentationComponent implements OnInit {
   gist$: Observable<gist | null> = of(null)
   file$: Observable<file | null> = of(null)
   file_index: number = 0
@@ -32,26 +32,26 @@ export class CodeRepresentationComponent implements OnInit {
   indicatorWidth = signal<number>(0)
   hoveredTabIndex = signal<number | null>(null)
 
-  constructor(private _codeRepresentationService: CodeRepresentationService) {
+  constructor(private _ngxCodeRepresentationService: NgxCodeRepresentationService) {
     effect(() => {
       this.updateIndicator()
     })
   }
   
   ngOnInit(): void {
-    this.gist$ = this._codeRepresentationService.gist$
-    this.file$ = this._codeRepresentationService.file$
+    this.gist$ = this._ngxCodeRepresentationService.gist$
+    this.file$ = this._ngxCodeRepresentationService.file$
     
-    this._codeRepresentationService.gist$.subscribe(gist => {
+    this._ngxCodeRepresentationService.gist$.subscribe(gist => {
       if (gist && gist.file && gist.file.length > 0) {
-        this._codeRepresentationService.setFile(0)
+        this._ngxCodeRepresentationService.setFile(0)
       }
     })
   }
 
   selectFile(index: number): void {
     if (this.file_index === index) return
-    this._codeRepresentationService.setFile(index) 
+    this._ngxCodeRepresentationService.setFile(index) 
     this.file_index = index
     this.updateIndicator()
   }

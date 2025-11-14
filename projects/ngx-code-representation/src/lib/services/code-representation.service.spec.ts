@@ -1,20 +1,20 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CodeRepresentationService } from './code-representation.service';
+import { NgxCodeRepresentationService } from './code-representation.service';
 import { gist } from '../models/gist.interface';
 
 describe('CodeRepresentationService', () => {
-  let service: CodeRepresentationService;
+  let service: NgxCodeRepresentationService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
-        CodeRepresentationService,
+        NgxCodeRepresentationService,
         provideZonelessChangeDetection()
       ]
     }).compileComponents();
     
-    service = TestBed.inject(CodeRepresentationService);
+    service = TestBed.inject(NgxCodeRepresentationService);
   });
 
   it('should be created', () => {

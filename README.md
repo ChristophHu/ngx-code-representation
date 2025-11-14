@@ -27,11 +27,11 @@ npm install @christophhu/ngx-code-representation
 Import the DatatableComponent in the app.ts.
 
 ```typescript
-import { CodeRepresentationComponent } from '@christophhu/ngx-code-representation';
+import { NgxCodeRepresentationComponent } from '@christophhu/ngx-code-representation';
 
 @NgModule({
     imports: [
-        CodeRepresentationComponent,
+        NgxCodeRepresentationComponent,
         ...
     ]
 ...
@@ -40,33 +40,55 @@ import { CodeRepresentationComponent } from '@christophhu/ngx-code-representatio
 
 ```typescript
 export class App {
-  protected readonly title = signal('demo');
-  
-  testCode = `function hello() {
-  console.log('Hello World');
-  return true;
-}`;
+  constructor(private _ngxCodeRepresentationService: NgxCodeRepresentationService, private _ngxCodeThemesService: NgxCodeThemesService) {
+    this._ngxCodeRepresentationService.setGist(this.gist)
+    this._ngxCodeThemesService.setThemes([
+      'assets/highlight_themes/github-dark.css',
+      'assets/highlight_themes/dark.css',
+      'assets/highlight_themes/github.css'
+    ])
+  }
 
-  files: file[] =
-    [
-    {filename: 'main.ts', language: 'typescript', code: `import { provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';`},
-{filename: 'app.ts', language: 'typescript', code: `export interface file {
-  filename: string;
-  language: string;
-  code: string;
-}
-
-export interface files {
-  files: file[];
-}`},
-    {filename: 'highlight-url.ts', language: 'typescript', filepath: `assets/code/highlight-url.ts`},
-  ]
+  gist: gist = {
+    "name": "border-blob",
+    "type": "shape",
+    "version": "1.0.0",
+    "description": "A blob shape with a border",
+    "file": [
+      {
+        "filename": "border-blob.html",
+        "language": "html",
+        "code": "<div class=\"card\">\n<div class=\"bg\">\n<\/div>\n<div class=\"blob\"><\/div></div>"
+      },
+      {
+        "filename": "border-blob.css",
+        "language": "css",
+        "code": ".card {\r\n  position: relative;\r\n  width: 200px;\r\n  height: 250px;\r\n  border-radius: 14px;\r\n  z-index: 1111;\r\n  overflow: hidden;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: center;\r\n  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;\r\n  ;\r\n}\r\n\r\n.bg {\r\n  position: absolute;\r\n  top: 5px;\r\n  left: 5px;\r\n  width: 190px;\r\n  height: 240px;\r\n  z-index: 2;\r\n  background: rgba(255, 255, 255, .95);\r\n  backdrop-filter: blur(24px);\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  outline: 2px solid white;\r\n}\r\n\r\n.blob {\r\n  position: absolute;\r\n  z-index: 1;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 150px;\r\n  height: 150px;\r\n  border-radius: 50%;\r\n  background-color: #ff0000;\r\n  opacity: 1;\r\n  filter: blur(12px);\r\n  animation: blob-bounce 5s infinite ease;\r\n}\r\n\r\n@keyframes blob-bounce {\r\n  0% {\r\n    transform: translate(-100%, -100%) translate3d(0, 0, 0);\r\n  }\r\n\r\n  25% {\r\n    transform: translate(-100%, -100%) translate3d(100%, 0, 0);\r\n  }\r\n\r\n  50% {\r\n    transform: translate(-100%, -100%) translate3d(100%, 100%, 0);\r\n  }\r\n\r\n  75% {\r\n    transform: translate(-100%, -100%) translate3d(0, 100%, 0);\r\n  }\r\n\r\n  100% {\r\n    transform: translate(-100%, -100%) translate3d(0, 0, 0);\r\n  }\r\n}\r\n"
+      }
+    ],
+    "image_base64": "..."
+  }
 }
 ```
 
 Then, you can use the `<ngx-code-representation>` component in your HTML templates as shown below:
 ```html
-<ngx-code-representation [files]="files"></ngx-code-representation>
+<div class="relative h-96 m-4 rounded shadow-lg overflow-hidden">
+  <ngx-code-representation></ngx-code-representation>
+</div>
+```
+
+In der `index.html` Datei, fügen Sie die Highlight.js CSS und JS Dateien hinzu:
+```html
+!doctype html>
+<html lang="en">
+<head>
+  ...
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github-dark.min.css" />
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js"></script>
+</head>
+...
+</html>
 ```
 
 ```typescript

@@ -31,14 +31,14 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should have files array defined', async () => {
+  it('should have gist file defined', async () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(app.files).toBeDefined();
-    expect(Array.isArray(app.files)).toBeTruthy();
-    expect(app.files.length).toBeGreaterThan(0);
+    expect(app.gist).toBeDefined();
+    expect(Array.isArray(app.gist.file)).toBeTruthy();
+    expect(app.gist.file.length).toBeGreaterThan(0);
   });
 
   it('should have gist defined', async () => {

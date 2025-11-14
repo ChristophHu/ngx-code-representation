@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgxCodeRepresentationComponent, NgxCodeRepresentationService, gist, NgxCodeThemesService, file } from '../../../ngx-code-representation/src/public-api';
+import { NgxCodeRepresentationComponent, NgxCodeRepresentationService, gist, NgxCodeThemesService } from '@christophhu/ngx-code-representation';
 
 @Component({
   selector: 'app-root',

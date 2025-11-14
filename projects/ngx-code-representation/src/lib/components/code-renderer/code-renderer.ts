@@ -2,13 +2,14 @@ import { Component, Input, OnInit, ViewEncapsulation, ElementRef, AfterViewInit,
 import { HighlightAuto } from 'ngx-highlightjs'
 import { file } from '../../models/file.interface'
 import { CodeRepresentationService } from '../../services/code-representation.service'
-import { IconsComponent } from '@christophhu/ngx-icons'
+import { NgxIconsComponent } from '@christophhu/ngx-icons'
+import { ThemesService } from '../../services/themes/themes.service'
 
 @Component({
   selector: 'code-renderer',
   imports: [
     HighlightAuto,
-    IconsComponent
+    NgxIconsComponent
   ],
   templateUrl: './code-renderer.html',
   styleUrl: './code-renderer.sass',
@@ -20,6 +21,7 @@ export class CodeRenderer implements OnInit, AfterViewInit, OnChanges {
 
   constructor(
     private _codeRepresentationService: CodeRepresentationService,
+    private _themesService: ThemesService,
     private elementRef: ElementRef
   ) { }
 
@@ -64,6 +66,9 @@ export class CodeRenderer implements OnInit, AfterViewInit, OnChanges {
     }
   }
   
+  changeHighlightTheme() {
+    this._themesService.toggleHighlightTheme()
+  }
 
   increaseFontSize(): void {
     this._codeRepresentationService.increaseFontSize()

@@ -10,5 +10,5 @@
   },
   "include": [
     "src/**/*.ts"
-  ]
+, "../ngx-code-representation/src/lib/services/theme.service.ts", "../ngx-code-representation/src/lib/services/theme.service.spec.ts"  ]
 }

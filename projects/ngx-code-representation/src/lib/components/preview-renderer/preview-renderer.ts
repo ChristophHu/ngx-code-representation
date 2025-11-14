@@ -1,15 +1,16 @@
-import { Component, Input, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, inject, OnDestroy } from '@angular/core'
+import { Component, Input, ViewChild, ElementRef, AfterViewInit, Renderer2, inject, OnDestroy } from '@angular/core'
 import { gist } from '../../models/gist.interface'
+import { NgxIconsComponent } from '@christophhu/ngx-icons'
 
 @Component({
   selector: 'preview-renderer',
   imports: [
-
+    NgxIconsComponent
   ],
   templateUrl: './preview-renderer.html',
   styleUrls: ['./preview-renderer.sass'],
 })
-export class PreviewRenderer implements OnInit, AfterViewInit, OnDestroy {
+export class PreviewRenderer implements AfterViewInit, OnDestroy {
   @Input() gist: gist = {
     "name": "Placeholder Gist",
     "type": "Ülaceholder",
@@ -33,9 +34,7 @@ export class PreviewRenderer implements OnInit, AfterViewInit, OnDestroy {
   private styleElement?: HTMLStyleElement
   private renderer = inject(Renderer2)
 
-  ngOnInit(): void {
-    
-  }
+  constructor() {}
 
   ngAfterViewInit(): void {
     this.renderCode()
@@ -67,6 +66,16 @@ export class PreviewRenderer implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.renderer.appendChild(this.elRenderer.nativeElement, this.styleElement)
       }
+    }
+  }
+
+  toggleMode(): void {
+    const body = document.body
+    const currentTheme = body.getAttribute('data-theme')
+    if (currentTheme === 'dark') {
+      body.setAttribute('data-theme', 'light')
+    } else {
+      body.setAttribute('data-theme', 'dark')
     }
   }
 

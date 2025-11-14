@@ -27,24 +27,6 @@
           }
           <hr class="absolute bottom-0 h-0.5 bg-accent border-0 rounded-full transition-all duration-300 ease-in-out" [style.left.px]="indicatorLeft()" [style.width.px]="indicatorWidth()">
         </ul>
-        
-        <!-- <div class="flex items-center gap-1 pr-2">
-          <button class="p-1 bg-secondary rounded cursor-pointer transition-colors">
-            <div class="h-5 w-5 stroke-2">
-              <ngx-icons name="clipboard"></ngx-icons>
-            </div>
-          </button>
-          <button class="p-1 bg-secondary rounded cursor-pointer transition-colors" (click)="decreaseFontSize()">
-            <div class="h-5 w-5 stroke-2">
-              <ngx-icons name="text-decrease"></ngx-icons>
-            </div>
-          </button>
-          <button class="p-1 bg-secondary rounded cursor-pointer transition-colors" (click)="increaseFontSize()">
-            <div class="h-5 w-5 stroke-2">
-              <ngx-icons name="text-increase"></ngx-icons>
-            </div>
-          </button>
-        </div> -->
       </div>
 
       <div class="flex-1 overflow-auto relative">
@@ -59,7 +41,7 @@
           <div class="preview-container">
             <preview-renderer [gist]="gist"></preview-renderer>
           </div>
-        } 
+        }
       </div>
     </div>
   }

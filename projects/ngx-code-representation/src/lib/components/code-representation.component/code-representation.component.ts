@@ -6,7 +6,7 @@ import { PreviewRenderer } from '../preview-renderer/preview-renderer'
 import { CodeRepresentationService } from '../../services/code-representation.service'
 import { Observable, of } from 'rxjs'
 import { CodeRenderer } from '../code-renderer/code-renderer'
-import { IconsComponent } from '@christophhu/ngx-icons'
+import { NgxIconsComponent } from '@christophhu/ngx-icons'
 import { CodeEnum } from '../../models/code.enum'
 
 @Component({
@@ -15,7 +15,7 @@ import { CodeEnum } from '../../models/code.enum'
     CodeRenderer,
     CommonModule,
     PreviewRenderer,
-    IconsComponent
+    NgxIconsComponent
 ],
   templateUrl: './code-representation.component.html',
   styleUrls: ['./code-representation.component.sass']
@@ -25,8 +25,6 @@ export class CodeRepresentationComponent implements OnInit {
   file$: Observable<file | null> = of(null)
   file_index: number = 0
 
-  // copied = signal(false)
-  // activeFileIndex = signal(1)
   activeView = signal<CodeEnum.CODE | CodeEnum.PREVIEW>(CodeEnum.CODE)
   
   tabItems = viewChildren<ElementRef<HTMLLIElement>>('tabItem')
@@ -44,7 +42,6 @@ export class CodeRepresentationComponent implements OnInit {
     this.gist$ = this._codeRepresentationService.gist$
     this.file$ = this._codeRepresentationService.file$
     
-    // Initialize first file when gist is loaded
     this._codeRepresentationService.gist$.subscribe(gist => {
       if (gist && gist.file && gist.file.length > 0) {
         this._codeRepresentationService.setFile(0)
@@ -70,15 +67,12 @@ export class CodeRepresentationComponent implements OnInit {
 
     let targetIndex = -1
     
-    // If hovering, use hovered tab index
     if (this.hoveredTabIndex() !== null) {
       targetIndex = this.hoveredTabIndex()!
     } else {
-      // Otherwise use active tab
       if (this.activeView() === CodeEnum.PREVIEW) {
         targetIndex = 0
       } else {
-        // Find the active code tab - it's after the preview tab if it exists
         const hasPreview = tabs.some(tab => 
           tab.nativeElement.classList.contains('preview-tab')
         )

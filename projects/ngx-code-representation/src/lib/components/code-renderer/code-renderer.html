@@ -6,6 +6,11 @@
                     <ngx-icons name="clipboard"></ngx-icons>
                 </div>
             </button>
+            <button class="p-1 rounded cursor-pointer transition-colors hover:bg-gray-700" (click)="changeHighlightTheme()">
+                <div class="h-5 w-5 stroke-2">
+                    <ngx-icons name="color-swatch"></ngx-icons>
+                </div>
+            </button>
             <button class="p-1 rounded cursor-pointer transition-colors hover:bg-gray-700" (click)="decreaseFontSize()">
                 <div class="h-5 w-5 stroke-2">
                     <ngx-icons name="text-decrease"></ngx-icons>
@@ -16,6 +21,7 @@
                     <ngx-icons name="text-increase"></ngx-icons>
                 </div>
             </button>
+            
         </div>
         <div class="-mt-6">
             <pre><code [highlightAuto]="file.code" [languages]="[file.language]" [style.user-select]="'text'" [style.font-size]="font_size"></code></pre>

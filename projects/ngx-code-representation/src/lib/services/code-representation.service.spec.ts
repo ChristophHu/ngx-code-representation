@@ -2,7 +2,6 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CodeRepresentationService } from './code-representation.service';
 import { gist } from '../models/gist.interface';
-import { file } from '../models/file.interface';
 
 describe('CodeRepresentationService', () => {
   let service: CodeRepresentationService;
